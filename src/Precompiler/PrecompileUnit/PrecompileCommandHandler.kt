@@ -57,31 +57,32 @@ class PrecompileCommandHandler : BaseHandler() {
 
     fun processType(sCode:String):Int{
         if(sCode.startsWith("#if")){
-            PrecompileCommandType=1;
+            return 1;
         }else if(sCode.startsWith("#ifdef")){
-            PrecompileCommandType=2;
+            return 2;
         }else if(sCode.startsWith("#ifndef")){
-            PrecompileCommandType=3;
+            return 3;
         }else if(sCode.startsWith("#elif")){
-            PrecompileCommandType=4;
+            return 4;
         }else if(sCode.startsWith("#else")){
-            PrecompileCommandType=5;
+            return 5;
         }else if(sCode.startsWith("#endif")){
-            PrecompileCommandType=6;
+            return 6;
         }else if(sCode.startsWith("#include")){
-            PrecompileCommandType=7;
+            return 7;
         }else if(sCode.startsWith("#define")){
-            PrecompileCommandType=8;
+            return 8;
         }else if(sCode.startsWith("#undef")){
-            PrecompileCommandType=9;
+            return 9;
         }else if(sCode.startsWith("#line")){
-            PrecompileCommandType=10;
+            return 10;
         }else if(sCode.startsWith("#error")){
-            PrecompileCommandType=11;
+            return 11;
         }else if(sCode.startsWith("#pragma")){
-            PrecompileCommandType=12;
+            return 12;
+        }else{
+            return -1;
         }
-
     }
 
     override fun getNewHandler(): BaseHandler {
