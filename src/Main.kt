@@ -7,7 +7,7 @@ import Precompiler.MainPrecompiler
  */
 object Main {
     @JvmStatic fun main(args: Array<String>) {
-        val mainSrcFile=ReadFile(".\\c_source\\helloworld2.c");
+        val mainSrcFile=ReadFile("./c_source/helloworld.c");
         val mainPrecompiler= MainPrecompiler(mainSrcFile);
     }
 }

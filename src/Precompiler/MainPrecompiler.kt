@@ -7,11 +7,16 @@ import InputStr.ReadFile
  */
 class MainPrecompiler constructor(mainFile: ReadFile){
     val code="";
-    var preCompilerHandler=PrecompilerHandler();
+    var preprocessHandler = PreprocessHandler();
+    var precompilerHandler = PrecompilerHandler();
     init {
         while (mainFile.hasNext()) {
-            preCompilerHandler.putChar(mainFile.getChar());
+            preprocessHandler.putChar(mainFile.getChar());
         }
-        preCompilerHandler.showCode();
+        var sPreProcessedStr= preprocessHandler.getCode();
+        while(sPreProcessedStr.hasNext()){
+            precompilerHandler.putChar(sPreProcessedStr.getChar());
+        }
+        precompilerHandler.showCode();
     }
 }

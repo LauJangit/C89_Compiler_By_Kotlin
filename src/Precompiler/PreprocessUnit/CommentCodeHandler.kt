@@ -1,9 +1,9 @@
-package Precompiler.Unit
+package Precompiler.PreprocessUnit
 
 /**
  * Created by lauya on 2018/1/8.
  */
-class CommentCodeHandler :BaseHandler() {
+class CommentCodeHandler : BaseHandler() {
     override val handlerType = 2;
     override var Code = "";
     //state
@@ -72,11 +72,11 @@ class CommentCodeHandler :BaseHandler() {
 
 
     override fun getNewHandler(): BaseHandler {
-        if (new_handler_chr == '#') {
-            var precompileCommandHandler = PrecompileCommandHandler();
-            precompileCommandHandler.putChar(new_handler_chr);
-            return precompileCommandHandler;
-        }
+//        if (new_handler_chr == '#') {
+//            var precompileCommandHandler = PrecompileCommandHandler();
+//            precompileCommandHandler.putChar(new_handler_chr);
+//            return precompileCommandHandler;
+//        }
         if (new_handler_chr == '/') {
             var commentCodeHandler = CommentCodeHandler();
             commentCodeHandler.putChar(new_handler_chr);
