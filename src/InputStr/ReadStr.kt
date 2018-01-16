@@ -13,4 +13,8 @@ class ReadStr constructor( _fileContent:String) {
     fun hasNext(): Boolean = cursor != fileContent.length
 
     fun getChar(): Char = fileContent[cursor++];
+
+    override fun toString(): String {
+        return fileContent
+    }
 }

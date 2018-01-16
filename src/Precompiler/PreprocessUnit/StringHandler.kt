@@ -39,6 +39,7 @@ class StringHandler : PreProcessBaseHandler() {
     override var new_handler_chr = '\u0000'
 
     override fun getNewHandler(): PreProcessBaseHandler {
+//        println(Code)
         if (new_handler_chr == '/') {
             var commentCodeHandler = CommentCodeHandler();
             commentCodeHandler.putChar(new_handler_chr);

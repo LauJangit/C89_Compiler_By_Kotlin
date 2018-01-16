@@ -6,6 +6,8 @@ package Precompiler.PreprocessUnit
 class CommentCodeHandler : PreProcessBaseHandler() {
     override val handlerType = 2;
     override var Code = "";
+    //
+    var is_comment=false;
     //state
     var in_comment_state = 0;
     var comment_state = 0; //0 无注释 1 "//"型注释 2 "/**/"型注释
@@ -15,7 +17,6 @@ class CommentCodeHandler : PreProcessBaseHandler() {
     override fun putChar(chr: Char) {
         //println("\tCommentCodeHandler:\t"+chr)
         if (comment_state == 0) {
-
             if (in_comment_state == 0) {
                 if (chr == '/') {//当遇到“/”时
                     in_comment_state = 1;
@@ -28,9 +29,11 @@ class CommentCodeHandler : PreProcessBaseHandler() {
                 if (chr == '/') {//当前一个字符已经时“/”时，第二个字符也是“/”
                     comment_state = 1;
                     in_comment_state = 0;
+                    is_comment=true;
                 } else if (chr == '*') {//当前一个字符已经时“/”时，第二个字符是“*”
                     comment_state = 2;
                     in_comment_state = 0;
+                    is_comment=true;
                 } else {//当前一个字符已经时“/”时，第二个字符不是“/”也不是“*”
                     in_comment_state = 0;
                     shouldSwitch = true;
@@ -72,20 +75,16 @@ class CommentCodeHandler : PreProcessBaseHandler() {
 
 
     override fun getNewHandler(): PreProcessBaseHandler {
+        lateinit var preProcessBaseHandler:PreProcessBaseHandler;
         if (new_handler_chr == '/') {
-            var commentCodeHandler = CommentCodeHandler();
-            commentCodeHandler.putChar(new_handler_chr);
-            return commentCodeHandler;
-        }
-        if (new_handler_chr == '\"') {
-            var stringCodeHandler = StringHandler();
-            stringCodeHandler.putChar(new_handler_chr);
-            return stringCodeHandler;
+            preProcessBaseHandler = CommentCodeHandler();
+        }else if (new_handler_chr == '\"') {
+            preProcessBaseHandler = StringHandler();
         } else {
-            var cSourceCodeHandler = CSourceCodeHandler();
-            cSourceCodeHandler.putChar(new_handler_chr);
-            return cSourceCodeHandler;
+            preProcessBaseHandler = CSourceCodeHandler();
         }
+        preProcessBaseHandler.putChar(new_handler_chr);
+        return preProcessBaseHandler;
     }
 }
 

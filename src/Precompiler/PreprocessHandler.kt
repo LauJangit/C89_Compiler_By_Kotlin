@@ -3,6 +3,7 @@ package Precompiler
 import InputStr.ReadStr
 import Precompiler.PrecompileUnit.PreCompileBaseHandler
 import Precompiler.PreprocessUnit.CSourceCodeHandler
+import Precompiler.PreprocessUnit.CommentCodeHandler
 import Precompiler.PreprocessUnit.PreProcessBaseHandler
 import java.util.*
 
@@ -29,7 +30,12 @@ class PreprocessHandler {
     fun getCode(): ReadStr {
         var sCode = "";
         for (basehandler in codeList) {
-            if (basehandler.handlerType == 3 || basehandler.handlerType == 4) {
+            if (basehandler.handlerType == 2) {
+                if (!(basehandler as CommentCodeHandler).is_comment) {
+                    sCode += basehandler.getProcessedCode();
+                    print("aaaaaaaaaaaaaa")
+                }
+            } else {
                 sCode += basehandler.getProcessedCode();
             }
         }

@@ -28,9 +28,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "server.h"
-#include <math.h>
-#include <ctype.h>
+#include "c_source/server.h"
+#include <c_source/ctype.h>
 
 #ifdef __CYGWIN__
 #define strtold(a,b) ((long double)strtod((a),(b)))

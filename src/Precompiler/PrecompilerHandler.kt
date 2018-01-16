@@ -1,6 +1,7 @@
 package Precompiler
 
 import InputStr.ReadStr
+import LexicalAnalyzer.LexicalBaseHandler
 import Precompiler.PrecompileUnit.CSourceCodeHandler
 import Precompiler.PrecompileUnit.PreCompileBaseHandler
 import java.util.ArrayList
@@ -44,5 +45,15 @@ class PrecompilerHandler {
             println(typeStr + ":");
             println("Code:" + basehandler.Code);
         }
+    }
+
+    fun getLexicalStruct():ArrayList<LexicalBaseHandler>{
+        val lexStruct=ArrayList<LexicalBaseHandler>();
+        for (basehandler in codeList) {
+            for(LexicalBaseHandler in basehandler.getLexStruct()){
+                lexStruct.add(LexicalBaseHandler);
+            }
+        }
+        return lexStruct;
     }
 }

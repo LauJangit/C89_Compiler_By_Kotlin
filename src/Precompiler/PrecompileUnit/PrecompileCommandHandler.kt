@@ -1,7 +1,10 @@
 package Precompiler.PrecompileUnit
 
+import InputStr.ReadFile
 import LexicalAnalyzer.LexicalBaseHandler
 import java.util.regex.Pattern
+import GlobalConfig
+import Precompiler.MainPrecompiler
 
 /**
  * Created by lauya on 2018/1/8.
@@ -19,6 +22,8 @@ class PrecompileCommandHandler : PreCompileBaseHandler() {
     var precompile_command_state = 0;
     //是否遇到换行转义符
     var keep_precompile_command_state = 0;
+
+    //处理输入的字符
     override fun putChar(chr: Char) {
         if (precompile_command_state == 0) {
             //如果没有进入预编译命令
@@ -66,9 +71,38 @@ class PrecompileCommandHandler : PreCompileBaseHandler() {
 
         }
         Code += chr;
-        //println(precompile_command_state.toString()+chr);
+
     }
 
+    //遇到无法识别的字符时，如果需要转换状态，需要使用该缓冲区记录该无法识别的字符
+    override var new_handler_chr = '\u0000';
+
+    //是否需要转换状态
+    override var shouldSwitch = false;
+
+
+    //转换状态到新的DFA处理机中
+    override fun getNewHandler(): PreCompileBaseHandler {
+        lexicalStruct=processCode();
+        PrecompileCommandType = processType(Code);
+        if (new_handler_chr == '#') {
+            var precompileCommandHandler = PrecompileCommandHandler();
+            precompileCommandHandler.putChar(new_handler_chr);
+            return precompileCommandHandler;
+        }
+        if (new_handler_chr == '\"') {
+            var stringCodeHandler = StringHandler();
+            stringCodeHandler.putChar(new_handler_chr);
+            return stringCodeHandler;
+        } else {
+            var cSourceCodeHandler = CSourceCodeHandler();
+            cSourceCodeHandler.putChar(new_handler_chr);
+            return cSourceCodeHandler;
+        }
+    }
+
+
+    //获取预编译指令的类型
     fun processType(sCode: String): Int {
         if (sCode.startsWith("#if")) {
             return 1;
@@ -99,29 +133,36 @@ class PrecompileCommandHandler : PreCompileBaseHandler() {
         }
     }
 
-    //遇到无法识别的字符时，如果需要转换状态，需要使用该缓冲区记录该无法识别的字符
-    override var new_handler_chr = '\u0000';
-
-    //是否需要转换状态
-    override var shouldSwitch = false;
-
-
-    //转换状态到新的DFA处理机中
-    override fun getNewHandler(): PreCompileBaseHandler {
-        PrecompileCommandType = processType(Code);
-        if (new_handler_chr == '#') {
-            var precompileCommandHandler = PrecompileCommandHandler();
-            precompileCommandHandler.putChar(new_handler_chr);
-            return precompileCommandHandler;
+    fun processCode(): ArrayList<LexicalBaseHandler> {
+        when (processType(Code)) {
+            1 -> return ArrayList<LexicalBaseHandler>()
+            2 -> return ArrayList<LexicalBaseHandler>()
+            3 -> return ArrayList<LexicalBaseHandler>()
+            4 -> return ArrayList<LexicalBaseHandler>()
+            5 -> return ArrayList<LexicalBaseHandler>()
+            6 -> return ArrayList<LexicalBaseHandler>()
+            7 -> return handlerInclude()
+            8 -> return ArrayList<LexicalBaseHandler>()
+            9 -> return ArrayList<LexicalBaseHandler>()
+            10 -> return ArrayList<LexicalBaseHandler>()
+            11 -> return ArrayList<LexicalBaseHandler>()
+            12 -> return ArrayList<LexicalBaseHandler>()
+            else -> return ArrayList<LexicalBaseHandler>()
         }
-        if (new_handler_chr == '\"') {
-            var stringCodeHandler = StringHandler();
-            stringCodeHandler.putChar(new_handler_chr);
-            return stringCodeHandler;
-        } else {
-            var cSourceCodeHandler = CSourceCodeHandler();
-            cSourceCodeHandler.putChar(new_handler_chr);
-            return cSourceCodeHandler;
+    }
+
+    //处理include指令
+    fun handlerInclude(): ArrayList<LexicalBaseHandler> {
+        lateinit var readFile: ReadFile;
+        if (Pattern.compile("^#[ ]*include[ ]*<(.*)>").matcher(Code).matches()) {
+            var filePath = Code.substring(Code.indexOf("<") + 1, Code.lastIndexOf(">")).trim();
+            readFile = GlobalConfig().getLibFile(filePath)
+        }else if(Pattern.compile("^#[ ]*include[ ]*\\\"(.*)\\\"").matcher(Code).matches()){
+            var filePath = Code.substring(Code.indexOf("\"") + 1, Code.lastIndexOf("\"")).trim();
+            readFile = GlobalConfig().getSrcFile(filePath)
+        }else{
+
         }
+        return MainPrecompiler(readFile).lexicalStruct;
     }
 }
