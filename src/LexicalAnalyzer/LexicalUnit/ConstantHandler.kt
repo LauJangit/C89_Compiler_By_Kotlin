@@ -7,5 +7,6 @@ import LexicalAnalyzer.LexicalBaseHandler
 */
 
 class ConstantHandler : LexicalBaseHandler() {
+    override var sCode: String = "";
     override var lexType = 3;
 }

@@ -33,7 +33,6 @@ class PreprocessHandler {
             if (basehandler.handlerType == 2) {
                 if (!(basehandler as CommentCodeHandler).is_comment) {
                     sCode += basehandler.getProcessedCode();
-                    print("aaaaaaaaaaaaaa")
                 }
             } else {
                 sCode += basehandler.getProcessedCode();
