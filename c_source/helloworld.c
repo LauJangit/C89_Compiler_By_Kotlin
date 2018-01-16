@@ -1,5 +1,7 @@
 //#define aaa 10
 #include <helloworld2.c>
+#include "helloworld2.c"
+
 #define TUP_ASSERT(__expression) do {\
         if (!( __expression )) \
         { \

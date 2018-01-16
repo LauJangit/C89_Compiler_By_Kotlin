@@ -3,7 +3,7 @@ package Precompiler.PreprocessUnit
 /**
  * Created by lauya on 2018/1/8.
  */
-class CommentCodeHandler : BaseHandler() {
+class CommentCodeHandler : PreProcessBaseHandler() {
     override val handlerType = 2;
     override var Code = "";
     //state
@@ -67,27 +67,22 @@ class CommentCodeHandler : BaseHandler() {
         Code += chr;
     }
 
-    override var new_handler_chr='\u0000'
-    override var shouldSwitch=false;
+    override var new_handler_chr = '\u0000'
+    override var shouldSwitch = false;
 
 
-    override fun getNewHandler(): BaseHandler {
-//        if (new_handler_chr == '#') {
-//            var precompileCommandHandler = PrecompileCommandHandler();
-//            precompileCommandHandler.putChar(new_handler_chr);
-//            return precompileCommandHandler;
-//        }
+    override fun getNewHandler(): PreProcessBaseHandler {
         if (new_handler_chr == '/') {
             var commentCodeHandler = CommentCodeHandler();
             commentCodeHandler.putChar(new_handler_chr);
             return commentCodeHandler;
         }
-        if (new_handler_chr =='\"') {
+        if (new_handler_chr == '\"') {
             var stringCodeHandler = StringHandler();
             stringCodeHandler.putChar(new_handler_chr);
             return stringCodeHandler;
-        }else{
-            var cSourceCodeHandler=CSourceCodeHandler();
+        } else {
+            var cSourceCodeHandler = CSourceCodeHandler();
             cSourceCodeHandler.putChar(new_handler_chr);
             return cSourceCodeHandler;
         }

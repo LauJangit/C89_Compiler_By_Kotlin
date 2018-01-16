@@ -1,12 +1,12 @@
 package Precompiler
 
 import InputStr.ReadStr
-import Precompiler.PrecompileUnit.BaseHandler
 import Precompiler.PrecompileUnit.CSourceCodeHandler
+import Precompiler.PrecompileUnit.PreCompileBaseHandler
 import java.util.ArrayList
 
 class PrecompilerHandler {
-    private val codeList = ArrayList<BaseHandler>();//刚被分开的代码块
+    private val codeList = ArrayList<PreCompileBaseHandler>();//刚被分开的代码块
 
     init {
         codeList.add(CSourceCodeHandler())
@@ -33,7 +33,7 @@ class PrecompilerHandler {
     }
 
     fun showCode() {
-        print("\n\n\n\n\n");
+        print("\n\n\n");
         for (basehandler in codeList) {
             var typeStr = when (basehandler.handlerType) {
                 1 -> "CSourceCodeHandler"

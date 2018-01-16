@@ -1,15 +1,16 @@
 package Precompiler
 
 import InputStr.ReadStr
-import Precompiler.PreprocessUnit.BaseHandler
+import Precompiler.PrecompileUnit.PreCompileBaseHandler
 import Precompiler.PreprocessUnit.CSourceCodeHandler
+import Precompiler.PreprocessUnit.PreProcessBaseHandler
 import java.util.*
 
 /**
  * Created by lauya on 2018/1/8.
  */
 class PreprocessHandler {
-    private val codeList = ArrayList<BaseHandler>();//刚被分开的代码块
+    private val codeList = ArrayList<PreProcessBaseHandler>();//刚被分开的代码块
 
     init {
         codeList.add(CSourceCodeHandler())
@@ -25,11 +26,11 @@ class PreprocessHandler {
         }
     }
 
-    fun getCode():ReadStr {
-        var sCode="";
+    fun getCode(): ReadStr {
+        var sCode = "";
         for (basehandler in codeList) {
             if (basehandler.handlerType == 3 || basehandler.handlerType == 4) {
-                sCode+=basehandler.getProcessedCode();
+                sCode += basehandler.getProcessedCode();
             }
         }
         return ReadStr(sCode);
