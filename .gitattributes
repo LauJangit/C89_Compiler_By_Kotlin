@@ -62,3 +62,4 @@
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 *.kt linguist-language=Kotlin
+* linguist-language=Kotlin
