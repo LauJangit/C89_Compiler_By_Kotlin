@@ -26,7 +26,7 @@ class MainPrecompiler constructor(mainFile: ReadFile) {
         while (sPreProcessedStr.hasNext()) {
             precompilerHandler.putChar(sPreProcessedStr.getChar());
         }
-        precompilerHandler.showCode()
+//        precompilerHandler.showCode()
         this.lexicalStruct=precompilerHandler.getLexicalStruct()
 //        var readStr =precompilerHandler.getCode();
 //        while (readStr.hasNext()){

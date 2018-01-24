@@ -1,12 +1,23 @@
 package LexicalAnalyzer.LexicalUnit
 
 import LexicalAnalyzer.LexicalBaseHandler
+import Precompiler.PrecompileUnit.PreCompileBaseHandler
+
 /*
 * 字符串常量
 */
 class StringHandler : LexicalBaseHandler() {
-    override var sCode: String = "";
     override var lexType = 4;
+    override var sCode: String = "";
+
+    override fun putChar(chr: Char) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override var shouldSwitch=false
+    override var new_handler_chr='\u0000'
+
+
     var sValue: String = "";
 
     fun doIdentify(sCode: String) {
@@ -43,5 +54,9 @@ class StringHandler : LexicalBaseHandler() {
             }
             sValue+=chr;
         }
+    }
+
+    fun process_string(str:String){
+        doIdentify(str)
     }
 }

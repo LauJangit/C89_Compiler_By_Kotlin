@@ -10,7 +10,7 @@ abstract class PreCompileBaseHandler {
     abstract val handlerType: Int;
     abstract fun putChar(chr: Char): Unit;
     abstract var new_handler_chr: Char;
-    abstract fun getNewHandler(): PreCompileBaseHandler;
+    abstract fun getNewHandler(): PreCompileBaseHandler
     abstract var shouldSwitch: Boolean;
     abstract var lexicalStruct: ArrayList<LexicalBaseHandler>;
 
